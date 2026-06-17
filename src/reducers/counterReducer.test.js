@@ -9,65 +9,96 @@ describe("unicafe reducer", () => {
     bad: 0,
   };
 
-  const actionGood = { type: "GOOD" };
-  const actionOk = { type: "OK" };
-  const actionBad = { type: "BAD" };
-  const actionReset = { type: "RESET" };
-
   test("should return a proper initial state when called with undefined state", () => {
     const action = {
       type: "DO_NOTHING",
     };
 
     const newState = counterReducer(undefined, action);
+
     expect(newState).toEqual(initialState);
   });
 
-  test("good is incremented", () => {
+  test("GOOD increments good", () => {
     const state = initialState;
 
     deepFreeze(state);
-    const newState = counterReducer(state, actionGood);
+
+    const newState = counterReducer(state, {
+      type: "GOOD",
+    });
+
     expect(newState).toEqual({
       good: 1,
       ok: 0,
       bad: 0,
     });
+
+    expect(state).toEqual(initialState);
+    expect(newState).not.toBe(state);
   });
 
-  test("testing actions", () => {
+  test("OK increments ok", () => {
     const state = initialState;
 
     deepFreeze(state);
-    const newState = counterReducer(state, actionGood);
+
+    const newState = counterReducer(state, {
+      type: "OK",
+    });
+
     expect(newState).toEqual({
-      good: 1,
-      ok: 0,
+      good: 0,
+      ok: 1,
       bad: 0,
     });
 
-    deepFreeze(newState);
-    const newState2 = counterReducer(newState, actionBad);
-    expect(newState2).toEqual({
-      good: 1,
+    expect(state).toEqual(initialState);
+    expect(newState).not.toBe(state);
+  });
+
+  test("BAD increments bad", () => {
+    const state = initialState;
+
+    deepFreeze(state);
+
+    const newState = counterReducer(state, {
+      type: "BAD",
+    });
+
+    expect(newState).toEqual({
+      good: 0,
       ok: 0,
       bad: 1,
     });
 
-    deepFreeze(newState2);
-    const newState3 = counterReducer(newState2, actionOk);
-    expect(newState3).toEqual({
-      good: 1,
-      ok: 1,
+    expect(state).toEqual(initialState);
+    expect(newState).not.toBe(state);
+  });
+
+  test("RESET returns initial state", () => {
+    const state = {
+      good: 5,
+      ok: 2,
       bad: 1,
+    };
+
+    deepFreeze(state);
+
+    const newState = counterReducer(state, {
+      type: "RESET",
     });
 
-    deepFreeze(newState3);
-    const reset = counterReducer(newState3, actionReset);
-    expect(reset).toEqual({
+    expect(newState).toEqual({
       good: 0,
       ok: 0,
       bad: 0,
+    });
+
+    expect(state).toEqual({
+      good: 5,
+      ok: 2,
+      bad: 1,
     });
   });
 });
