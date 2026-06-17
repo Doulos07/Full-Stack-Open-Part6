@@ -24,8 +24,10 @@ const reducer = (state = initialState, action) => {
   console.log("action", action);
 
   switch (action.type) {
-    case "VOTE": {
-      console.log("en vote");
+    case "ANECDOTE/ADD": {
+      return [...state, action.playload];
+    }
+    case "ANECDOTE/VOTE": {
       const id = action.playload.id;
       const anecdoteToChange = state.find((s) => s.id === id);
       const changedAnecdote = {
@@ -40,9 +42,16 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const newNote = (id) => {
+export const newAnecdote = (anecdote) => {
   return {
-    type: "VOTE",
+    type: "ANECDOTE/ADD",
+    playload: asObject(anecdote),
+  };
+};
+
+export const voteAnecdote = (id) => {
+  return {
+    type: "ANECDOTE/VOTE",
     playload: { id },
   };
 };
