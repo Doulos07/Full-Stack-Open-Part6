@@ -16,11 +16,12 @@ const AnecdoteList = () => {
       );
     }
   });
-  const anecdotesSorted = anecdotes.sort(sortedAnecdotes);
+  const anecdotesSorted = [...anecdotes].sort(sortedAnecdotes);
 
   const vote = (id) => {
     dispatch(voteAnecdote(id));
   };
+
   return (
     <>
       {anecdotesSorted.map((anecdote) => (
@@ -28,7 +29,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote.id)}>vote </button>
           </div>
         </div>
       ))}

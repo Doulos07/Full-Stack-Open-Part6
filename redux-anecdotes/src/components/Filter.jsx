@@ -5,7 +5,6 @@ const Filter = () => {
   const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
 
-  console.log(filter);
   return (
     <div>
       filter
