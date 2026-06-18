@@ -2,7 +2,7 @@
   "anecdotes": [
     {
       "content": "If it hurts, do it more often",
-      "votes": 0,
+      "votes": 5,
       "id": "vF_3Y0_wX5s"
     },
     {
@@ -42,7 +42,7 @@
     },
     {
       "content": "sad",
-      "votes": 0,
+      "votes": 5,
       "id": "CecffyEJCuk"
     }
   ],
