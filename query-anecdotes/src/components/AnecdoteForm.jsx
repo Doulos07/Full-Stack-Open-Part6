@@ -10,9 +10,18 @@ const AnecdoteForm = () => {
   const newAnecdoteMutation = useMutation({
     mutationFn: anecdoteService.newAnecdote,
     onSuccess: (newAnecdote) => {
-      //queryUse.invalidateQueries({ queryKey: ["anecdotes"] });
       const anecdotes = queryClient.getQueryData(["anecdotes"]);
       queryClient.setQueryData(["anecdotes"], anecdotes.concat(newAnecdote));
+      messageDispach({
+        type: "CREATE",
+        payload: { content: newAnecdote.content },
+      });
+      setTimeout(() => messageDispach({ type: "CLEAR" }), 5000);
+    },
+    onError: (error) => {
+      console.log(error);
+      messageDispach({ type: "ERROR", payload: { content: error } });
+      setTimeout(() => messageDispach({ type: "CLEAR" }), 5000);
     },
   });
 
@@ -21,8 +30,6 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value;
     event.target.reset();
     newAnecdoteMutation.mutate(content);
-    messageDispach({ type: "CREATE", payload: { content } });
-    setTimeout(() => messageDispach({ type: "CLEAR" }), 5000);
   };
 
   return (

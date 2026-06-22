@@ -15,8 +15,11 @@ const newAnecdote = async (content) => {
     body: JSON.stringify({ content, votes: 0 }),
   };
   const response = await fetch(baseUrl, options);
+
   if (!response.ok) {
-    throw new Error("failed to create anecdote");
+    const errorData = await response.json();
+    console.log(errorData);
+    throw new Error(errorData.error);
   }
   return await response.json();
 };

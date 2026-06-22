@@ -3,6 +3,7 @@ import { createContext, useReducer } from "react";
 const messageReducer = (state, action) => {
   console.log("state:", state);
   console.log("action:", action);
+
   switch (action.type) {
     case "VOTE": {
       const content = action.payload.content;
@@ -11,6 +12,10 @@ const messageReducer = (state, action) => {
     case "CREATE": {
       const content = action.payload.content;
       return `you create anecdote:'${content}'`;
+    }
+    case "ERROR": {
+      const content = action.payload.content;
+      return `${content}`;
     }
     case "CLEAR":
       return "";
