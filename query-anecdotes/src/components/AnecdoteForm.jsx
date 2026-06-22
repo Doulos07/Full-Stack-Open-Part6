@@ -1,8 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import anecdoteService from "../services/anecdotes";
+import { useContext } from "react";
+import MenssageContext from "../anecdotesContext";
 
 const AnecdoteForm = () => {
   const queryClient = useQueryClient();
+  const { messageDispach } = useContext(MenssageContext);
 
   const newAnecdoteMutation = useMutation({
     mutationFn: anecdoteService.newAnecdote,
@@ -18,6 +21,8 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value;
     event.target.reset();
     newAnecdoteMutation.mutate(content);
+    messageDispach({ type: "CREATE", payload: { content } });
+    setTimeout(() => messageDispach({ type: "CLEAR" }), 5000);
   };
 
   return (

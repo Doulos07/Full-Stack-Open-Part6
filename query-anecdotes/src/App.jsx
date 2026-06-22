@@ -1,10 +1,13 @@
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import anecdoteServices from "./services/anecdotes";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useContext } from "react";
+import MenssageContext from "./anecdotesContext";
 
 const App = () => {
   const queryClient = useQueryClient();
+  const { messageDispach } = useContext(MenssageContext);
 
   const voteAnecdoteMutate = useMutation({
     mutationFn: anecdoteServices.voteAnecdote,
@@ -26,6 +29,10 @@ const App = () => {
   console.log(result);
   const handleVote = (anecdote) => {
     voteAnecdoteMutate.mutate(anecdote);
+    messageDispach({ type: "VOTE", payload: anecdote });
+    setTimeout(() => {
+      messageDispach({ type: "CLEAR" });
+    }, 5000);
   };
 
   if (result.isPending) {
